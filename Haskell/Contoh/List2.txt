@@ -1,0 +1,224 @@
+					--Steffi Indrayani/16514120
+--Latihan1
+--DEFINISI DAN SPESIFIKASI
+sumisiList :: [Int] -> Int
+{-sumisList(l) menghitung hasil penjumlahan dari seluruh elemen sebuah 
+list of integer l yang tidak kosong.-}
+isOneElmt :: [Int] -> Bool
+-- isOneElmt(l) true jika list of integer l hanya
+-- mempunyai satu elemen
+-- REALISASI
+isOneElmt l = (length l) == 1
+sumisiList l
+	| isOneElmt l = head l					--Basis
+	| otherwise = head l + (sumisiList (tail l))		--Rekurens
+
+
+--Latihan2
+--DEFINISI DAN SPESIFIKASI
+filterGanjil :: [Int] -> [Int]
+{-filterGanjil(li) melakukan filtering terhadap sebuah list of integer li 
+sehingga menghasilkan list dengan elemen yang hanya terdiri atas 
+bilangan ganjil yang muncul di li. Diasumsikan semua
+elemen li adalah bilangan integer positif atau 0 -}
+isEmpty :: [Int] -> Bool
+-- isEmpty(l) true jika list of elemen l kosong
+konso :: Int -> [Int] -> [Int] 
+-- konso(e,lc) menghasilkan sebuah teks dari e 
+-- (sebuah character) dan lc (teks), dengan e sebagai 
+-- elemen pertama: e o L -> L' 
+-- REALISASI
+konso e lc = [e] ++ lc
+isEmpty l = null l
+filterGanjil li
+	| isEmpty li = []				--Basis
+	| (mod (head li) 2) /= 0 = konso (head li) (filterGanjil (tail li)) --Rekurens
+	| otherwise = filterGanjil (tail li) 		--Rekurens
+
+
+--Latihan3
+--DEFINISI DAN REALISASI
+splitList:: [Int] -> ([Int],[Int])
+{- splitList(li) menghasilkan 2 list of integer, list
+pertama memuat bilangan positif dan 0 yang merupakan
+elemen dari li (dengan urutan kemunculan yang tidak
+berubah), sedangkan list kedua memuat bilangan negatif
+elemen li. Prekondisi: li mungkin kosong -}
+isEmpty :: [Int] -> Bool
+-- isEmpty(l) true jika list of elemen l kosong
+konso :: Int -> [Int] -> [Int] 
+-- konso(e,lc) menghasilkan sebuah teks dari e 
+-- (sebuah character) dan lc (teks), dengan e sebagai 
+-- elemen pertama: e o L -> L' 
+elemenPos :: [Int] -> [Int]
+{- elemPos l menghasilkan list baru yang terdiri dari bilangan 0 atau positif-}
+elemenNeg :: [Int] -> [Int]
+{- elemNeg l menghasilkan list baru yang terdiri dari bilangan negatif-}
+-- REALISASI
+konso e lc = [e] ++ lc
+isEmpty l = null l
+elemenPos l
+	| isEmpty l = [] 					--Basis
+	| (head l >= 0) = konso (head l) (elemenPos (tail l)) 	--Rekurens
+	| otherwise = elemenPos (tail l) 			--Rekurens
+elemenNeg l
+	| isEmpty l = [] 					--Basis
+	| (head l < 0) = konso (head l) (elemenNeg (tail l)) 	--Rekurens
+	| otherwise = elemenNeg (tail l) 			--Rekurens
+splitList li =(elemenPos li, elemenNeg li)
+	
+
+--Latihan4
+--DEFINISI DAN SPESIFIKASI
+XHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHUUUUUUinsert :: Int -> [Int] -> [Int]
+{-insort(li) menghasilkan list integer yang terurut dengan metode
+insertion sort-}
+isEmpty :: [Int] -> Bool
+-- isEmpty(l) true jika list of elemen l kosong
+konso :: Int -> [Int] -> [Int] 
+-- konso(e,lc) menghasilkan sebuah teks dari e 
+-- (sebuah character) dan lc (teks), dengan e sebagai 
+-- elemen pertama: e o L -> L' 
+konkat :: [Int] -> [Int] -> [Int]
+{-konkat(li1,li2) menghasilkan konkatenasi 2 list dengan list l2 sesudah
+l1-}
+mergeList:: [Int] -> [Int] -> [Int]
+{- mergeList(li1,li2) menghasilkan list of integer yang
+merupakan hasil penggabungan li1 dan li2, dan tetap
+terurut membesar.
+Prekondisi: li1 dan li2 adalah list terurut membesar
+dan mungkin kosong -}
+insort :: [Int] -> [Int]
+--insort l menghasilkan list integer yang terurut dengan metode insertion
+--sort
+-- REALISASI
+konso e lc = [e] ++ lc
+isEmpty l = null l
+konkat l1 l2  
+	| (isEmpty l1) = l2 					--Basis
+	| otherwise =(konso (head l1) (konkat (tail l1) l2)) 	--Rekurens
+insert x li
+	| (isEmpty li) = (konso x li)		--Basis
+	| (x <= head li) = (konso x li)		--Rekurens
+	| otherwise = (konso (head li) (insert x (tail li))) --Rekurens
+insort li
+	| (isEmpty li) = [] 				--Basis
+	| otherwise = insert (head li) (insort (tail li)) --Rekurens
+mergeList li1 li2  
+	| (isEmpty li1) = (insort li2) 		--Basis
+	| (isEmpty li2) = (insort li1) 		--Basis
+	| otherwise = insort (konkat li1 li2) 	--Rekurens
+		 
+
+--Latihan 5
+--DEFINISI DAN SPESIFIKASI
+isOrdered :: [Int] -> Bool
+{- isOrdered(l) menghasilkan true jika elemen-elemen pada
+l terurut membesar, false jika tidak. Prekondisi: l tidak kosong -}
+isOneElmt :: [Int] -> Bool
+-- isOneElmt(l) true jika list of integer l hanya
+-- mempunyai satu elemen
+-- REALISASI
+isOneElmt l = (length l) == 1
+isOrdered l
+	| isOneElmt l = True					--Basis								--BASIS
+	| (head l) < (head (tail l)) && isOrdered(tail l) = True--Rekurens
+	| otherwise = False
+
+
+--Latihan 6
+--DEFINISI DAN REALISASI
+isUnique :: [Char] -> Bool
+{- isUnique(lc) menghasilkan true jika lc adalah list
+dengan elemen unik, yaitu tidak ada elemen pada lc
+yang muncul lebih dari 1 kali -}
+isOneElmt :: [Char] -> Bool
+-- isOneElmt(l) true jika list of char l hanya
+-- mempunyai satu elemen
+isMember :: Char -> [Char] -> Bool
+{- isUnique e l menghasilkan true jika karakter e ada di list l-}
+isEmpty :: [Char] -> Bool
+-- isEmpty(l) true jika list of elemen l kosong
+-- REALISASI
+isEmpty l = null l
+isOneElmt l = (length l) == 1
+isMember x l
+	|isEmpty l = False				--Basis
+	| (head l) == x = True				--Basis
+	| otherwise = (isMember x (tail l))		--Rekurens
+isUnique lc
+	| isOneElmt lc = True				--BASIS
+	| (isMember (head lc) (tail lc)) = False	--REKURENS
+	| otherwise = isUnique (tail lc)
+
+
+--latihan 7
+--DEFINISI DAN REALISASI
+posOfX :: Char -> [Char] -> Int
+{- posOfX(e,lc) menghasilkan sebuah bilangan integer yang
+menyatakan posisi e pada list of character lc. Jika e
+bukan elemen dari lc, fungsi akan menghasilkan 0.
+Prekondisi: lc memiliki elemen unik -}
+isOneElmt :: [Char] -> Bool
+-- isOneElmt(l) true jika list of integer l hanya
+-- mempunyai satu elemen
+isMember :: Char -> [Char] -> Bool
+{- isMember e l menghasilkan true jika karakter e ada di list l-}
+isEmpty :: [Char] -> Bool
+-- isEmpty(l) true jika list of elemen l kosong
+-- REALISASI
+isEmpty l = null l
+isOneElmt l = (length l) == 1
+isMember x l
+	|isEmpty l = False			--Basis
+	| (head l) == x = True			--Basis
+	| otherwise = (isMember x (tail l))	--Rekurens
+posOfX e lc =
+	if (not(isMember e lc)) then 0
+	else
+		if (isOneElmt lc) && (head lc == e) then 1	--Basis
+		else if (isOneElmt lc) && (head lc /= e) then 0	--Basis
+		else 1 + (posOfX e (tail lc))			--Rekurens
+
+--Latihan3
+--DEFINISI DAN REALISASI
+splitAlternate :: [Char] -> ([Char],[Char])
+{- splitAlternate(l) menghasilkan dua buah list, misalnya
+l1 dan l2. l1 berisi semua elemen l pada posisi
+ganjil, l2 berisi semua elemen l pada posisi genap -}
+isEmpty :: [Char] -> Bool
+-- isEmpty(l) true jika list of elemen l kosong
+konso :: Char -> [Char] -> [Char] 
+-- konso(e,lc) menghasilkan sebuah teks dari e 
+-- (sebuah character) dan lc (teks), dengan e sebagai 
+-- elemen pertama: e o L -> L' 
+elemenGan :: Int -> [Char] -> [Char]
+{- elemenGan(n,l) menghasilkan list berisi elemen ganjil jika n bernilai 
+ganjil-}
+elemenGen ::  Int -> [Char] -> [Char]
+{- elemenGan(n,l) menghasilkan list berisi elemen ginjal jika n bernilai 
+genap-}
+nList :: [Char] -> Int
+{-nList l menghasilkan banyaknya elemen dalam list l-}
+isOneElmt :: [Char] -> Bool
+-- REALISASI
+isOneElmt l = (length l) == 1
+nList l
+	| isEmpty l = 0		--Basis
+	| otherwise = 1 + (nList (tail l)) --Rekurens
+konso e lc = [e] ++ lc
+isEmpty l = null l
+elemenGan n l
+	| isEmpty l = []	--Basis
+	| ((mod n 2) == 1) = (konso (head l) (elemenGan (n-1) (tail l))) --Rekurens
+	| otherwise = elemenGan (n-1) (tail l) --Rekurens
+elemenGen n l
+	| isEmpty l = []	--Basis
+	| ((mod n 2) == 0) = (konso (head l) (elemenGen (n-1) (tail l))) --Rekurens
+	| otherwise = elemenGen (n-1) (tail l) --Rekurens
+	
+splitAlternate l  
+	| ((mod (nList l) 2) == 1) = ((elemenGan (nList l) l), (elemenGan (nList l) (tail l))) 
+	| ((mod (nList l) 2) == 0) = ((elemenGen (nList l) l), (elemenGen (nList l) (tail l)))
+	
+
