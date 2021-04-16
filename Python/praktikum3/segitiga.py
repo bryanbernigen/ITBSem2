@@ -5,12 +5,9 @@
 #Kamus
 #alas,tinggi,luas,valid: integer
 
-valid=0
-alas=float(input())
-tinggi=float(input())
-while alas<0 or tinggi<0:
+alas, tinggi=map(int, input().split())
+if alas<=0 or tinggi<=0:
     print("Alas dan tinggi harus > 0")
-    alas=float(input())
-    tinggi=float(input())
-luas=0.5*alas*tinggi
-print(round(luas))
+else:
+    luas=0.5*alas*tinggi
+    print(round(luas))
